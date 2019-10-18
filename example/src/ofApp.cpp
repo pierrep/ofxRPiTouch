@@ -3,7 +3,8 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-    touch.init("/dev/input/event0");    // change according to your setup (evdev)
+//    touch.init("/dev/input/event4");    // change according to your setup (evdev)
+	touch.init("/dev/input/by-id/usb-ILITEK_Multi-Touch-V300__V300_-event-if01");
     ofLog()<<touch.getName();
     
 }
@@ -26,7 +27,7 @@ void ofApp::update(){
 void ofApp::draw(){
     
     stringstream statusStream;
-    ofSetColor(255,255,255);
+    ofSetColor(0,0,0);
     
     statusStream << "X: " << touch.getCoordTouch().x << endl
     << "Y: " << touch.getCoordTouch().y << endl

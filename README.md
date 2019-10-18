@@ -1,9 +1,7 @@
 #ofxRPiTouch
-Addon for using the RaspberryPi 7" Touch Dipsplay [WIP]
+Addon for using the RaspberryPi Touch Dipsplays 
 
-![alt text][logo]
-
-[logo]: https://github.com/apparentVJ/ofxRPiTouch/blob/master/image.jpg
+Use "evtest /dev/input/event0" (or whatever your input device is enumerated as) to get the Max. and Min. values for your calibration. 
 
 * Position
 * Button
@@ -12,4 +10,3 @@ Addon for using the RaspberryPi 7" Touch Dipsplay [WIP]
 * absTrackingID
 
 Provides an interface with: struct *input_event ev;*
-Heavily inspired from kashimAstro's [ofxTFTTouch](https://github.com/kashimAstro/ofxTFTTouch)

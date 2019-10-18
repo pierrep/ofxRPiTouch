@@ -20,26 +20,18 @@
 // TOUCH
 #define EVENT_TYPE      EV_ABS
 #define EVENT_CODE_0    ABS_X
-// Min  0
-// Max  800
 #define EVENT_CODE_1    ABS_Y
-// Min  0
-// Max  480
 #define EVENT_CODE_47   ABS_MT_SLOT
 // Min  0
 // Max  9
+
 #define EVENT_CODE_53   ABS_MT_POSITION_X
-// Min  0
-// Max  800
 #define EVENT_CODE_54   ABS_MT_POSITION_Y
-// Min  0
-// Max  480
+
 #define EVENT_CODE_57   ABS_MT_TRACKING_ID
 // Min  0
 // Max  65535
 
-//#define PORTRAIT_MODE
-//#define LANDSCAPE_MODE
 
 class ofxRPiTouch : public ofThread {
     public:
@@ -51,12 +43,17 @@ class ofxRPiTouch : public ofThread {
 
     int x,y;
     int button;
+    ofVec2f pos;
     int mtSlot;
-    int absMTPosX,absMTPosY;
-    int absMTTrackingID;
+    ofVec2f absPos;
+    int absTrackingID;
 
-    //int screenW = 480;
-    //int screenH = 800;
+    int screenW = 1920;
+    int screenH = 1080;
+    
+    /* Replace these values with the ones from evtest on your screen */
+    int event_x_max = 16384;
+    int event_y_max = 9600;
 
 //-----------------------------------------------------------------------
     int init(string d) {
@@ -106,66 +103,57 @@ class ofxRPiTouch : public ofThread {
 
             //TOUCH
             if (ev.type == EVENT_TYPE && ( ev.code == EVENT_CODE_0 || ev.code == EVENT_CODE_1 || ev.code == EVENT_CODE_47 || ev.code == EVENT_CODE_53 || ev.code == EVENT_CODE_54 || ev.code == EVENT_CODE_57 )) {
-                if(ev.code == EVENT_CODE_1) {
-                    x = ofMap(ev.value, 0,480,480,0);
+                if(ev.code == EVENT_CODE_0) {
+                    x = ofMap(ev.value, 0,event_x_max,0,screenW);
                 }
 
-                if(ev.code == EVENT_CODE_0) {
-                    y = ofMap(ev.value, 0,800,0,800);
+                if(ev.code == EVENT_CODE_1) {
+                    y = ofMap(ev.value, 0,event_y_max,0,screenH);
                 }
 
                 pos.set(x,y);
 
                 if (ev.code == EVENT_CODE_47) {
                     mtSlot = ev.value;
-                    mtSlt = mtSlot;
                 }
 
                 if (ev.code == EVENT_CODE_53) {
-                    absMTPosX = ev.value;
+                    absPos.x = ev.value;
                 }
 
                 if (ev.code == EVENT_CODE_54) {
-                    absMTPosY = ev.value;
+                    absPos.y = ev.value;
                 }
 
-                absPos.set(absMTPosX,absMTPosY);
-
                 if (ev.code == EVENT_CODE_57) {
-                    absMTTrackingID = ev.value;
-                    absTrackingID = absMTTrackingID;
+                    absTrackingID = ev.value;
                 }
             }
         }
     }
 //----------------------------
     // Position
-    ofVec2f pos;
     ofVec2f getCoordTouch(){
         return pos;
     }
 //----------------------------
     //Clicked
-    int btn;
     int getButton(){
-        return btn;
+        return button;
     }
 //----------------------------
     //Finger ID
-    int mtSlt;
     int getMTSlot(){
-        return mtSlt;
+        return mtSlot;
     }
 //----------------------------
     //Absolute Position
-    ofVec2f absPos;
     ofVec2f getAbsPos(){
         return absPos;
     }
 
 //----------------------------
     //Tracking ID
-    int absTrackingID;
     int getAbsTrackingID(){
         return absTrackingID;
     }
