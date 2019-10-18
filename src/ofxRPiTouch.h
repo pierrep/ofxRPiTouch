@@ -98,7 +98,6 @@ class ofxRPiTouch : public ofThread {
             if (ev.type == EVENT_TYPE_1 && ev.code == EVENT_CODE_330){
                 if(ev.code == EVENT_CODE_330)
                     button = ev.value;
-                btn = button;
             }
 
             //TOUCH
