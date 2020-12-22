@@ -54,6 +54,11 @@ class ofxRPiTouch : public ofThread {
     /* Replace these values with the ones from evtest on your screen */
     int event_x_max = 16384;
     int event_y_max = 9600;
+    
+    ~ofxRPiTouch() {
+        stopThread();
+        waitForThread(true);
+    }
 
 //-----------------------------------------------------------------------
     bool init(string d) {
@@ -85,6 +90,7 @@ class ofxRPiTouch : public ofThread {
 //-----------------------------------------------------------------------
     void exit(){
         stopThread();
+        waitForThread(true);
     }
 //-----------------------------------------------------------------------
     void threadedFunction(){
