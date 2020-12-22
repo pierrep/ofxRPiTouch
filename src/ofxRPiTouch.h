@@ -56,7 +56,7 @@ class ofxRPiTouch : public ofThread {
     int event_y_max = 9600;
 
 //-----------------------------------------------------------------------
-    int init(string d) {
+    bool init(string d) {
         size = sizeof (struct input_event);
         name[0]='U';
         name[1]='n';
@@ -66,13 +66,15 @@ class ofxRPiTouch : public ofThread {
         name[5]='w';
         name[6]='n';
         device = &d[0];
+        ofLogNotice("ofxRPiTouch") << "Initialising device: " << device;
 
         if ((fd = open(device, O_RDONLY)) < 0) {
-            return 1;
+            ofLogError("ofxRPiTouch") << "Device: " << device << " failed to initialise.";
+            return false;
         }
         startThread();
 
-        return 0;
+        return true;
     }
 //-----------------------------------------------------------------------
     string getName(){
